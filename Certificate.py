@@ -23,7 +23,7 @@ from reportlab.lib import colors
 from reportlab.pdfgen import canvas
 from Database_Connection import query_db
 from Login import login_required
-from Progress import calculate_course_progress
+from Progress import calculate_course_progress, is_course_final_quiz_passed
 
 certificate_bp = Blueprint("certificate", __name__)
 
@@ -49,10 +49,15 @@ def view_certificate(course_id):
         flash("Course not found or unauthorized.", "danger")
         return redirect(url_for("dashboard.dashboard"))
 
-    # Strict check for 100% completion
+    # Strict check: all modules completed AND final quiz passed
     pct, completed_count, total_count = calculate_course_progress(user_id, course_id)
-    if pct < 100:
-        flash(f"Course is {pct}% complete. You must complete all {total_count} modules and quizzes to earn your certificate!", "warning")
+    quiz_passed, best_score, total_q = is_course_final_quiz_passed(user_id, course_id)
+
+    if pct < 100 or not quiz_passed:
+        if pct < 100:
+            flash(f"Course is {pct}% complete. Complete all {total_count} modules and pass the Final Certification Exam to earn your certificate!", "warning")
+        else:
+            flash("You must pass the Final Certification Exam (at least 60%) to claim your official certificate!", "warning")
         return redirect(url_for("module.view_course", course_id=course_id))
 
     user = query_db("SELECT name FROM users WHERE id = ?", (user_id,), one=True)
@@ -84,10 +89,12 @@ def download_certificate(course_id):
         flash("Course not found or unauthorized.", "danger")
         return redirect(url_for("dashboard.dashboard"))
 
-    # Guard: must be 100% complete
+    # Guard: all modules completed AND final quiz passed
     pct, _, total_count = calculate_course_progress(user_id, course_id)
-    if pct < 100:
-        flash("Incomplete course requirements. Certificate locked.", "danger")
+    quiz_passed, _, _ = is_course_final_quiz_passed(user_id, course_id)
+
+    if pct < 100 or not quiz_passed:
+        flash("You must complete all modules and pass the Final Certification Exam to download your certificate.", "danger")
         return redirect(url_for("module.view_course", course_id=course_id))
 
     user = query_db("SELECT name FROM users WHERE id = ?", (user_id,), one=True)

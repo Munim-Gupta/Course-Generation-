@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Quiz Results: Module {{ module.module_number }} | CourseGen{% endblock %}
+{% block title %}{% if is_final_quiz %}Final Exam Results: {{ course.title }}{% else %}Quiz Results: {{ module.title }}{% endif %} | CourseGen{% endblock %}
 
 {% block content %}
 <div class="container py-4">
@@ -14,20 +14,30 @@
                 {% elif percentage >= 60 %}
                     <i class="bi bi-check-circle-fill display-2 text-success"></i>
                 {% else %}
-                    <i class="bi bi-arrow-repeat display-2 text-info"></i>
+                    <i class="bi bi-arrow-repeat display-2 text-danger"></i>
                 {% endif %}
             </div>
             <span class="badge bg-{{ badge_class }} px-3 py-1 rounded-pill mb-2 fs-6">
-                Assessment Evaluated
+                {% if is_final_quiz %}
+                    {% if passed %}Certification Exam Passed ✓{% else %}Exam Score Below 60% Passing Mark{% endif %}
+                {% else %}
+                    Assessment Evaluated
+                {% endif %}
             </span>
-            <h1 class="display-5 fw-bold mb-2">Quiz Completed!</h1>
+            <h1 class="display-5 fw-bold mb-2">
+                {% if is_final_quiz %}
+                    {% if passed %}Congratulations! You Passed!{% else %}Exam Incomplete{% endif %}
+                {% else %}
+                    Quiz Completed!
+                {% endif %}
+            </h1>
             <p class="lead text-light-50 mb-4">{{ remarks }}</p>
 
             <div class="row g-3 justify-content-center mb-4">
                 <div class="col-6 col-md-4">
                     <div class="card bg-black bg-opacity-25 border-secondary p-3 rounded-4">
                         <div class="text-light-50 small">Final Score</div>
-                        <div class="fs-2 fw-bold text-white">{{ score }} <span class="fs-5 text-muted">/ {{ total }}</span></div>
+                        <div class="fs-2 fw-bold text-white">{{ score }} <span class="fs-5 text-muted">/ {{ total_questions }}</span></div>
                     </div>
                 </div>
                 <div class="col-6 col-md-4">
@@ -40,20 +50,38 @@
 
             <!-- Action Buttons -->
             <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="{{ url_for('module.view_module', module_id=module.id) }}" class="btn btn-outline-light px-4">
-                    <i class="bi bi-book me-1"></i> Return to Module
-                </a>
-                <a href="{{ url_for('quiz.take_quiz', module_id=module.id) }}" class="btn btn-outline-secondary px-3 text-white">
-                    <i class="bi bi-arrow-clockwise me-1"></i> Retake Quiz
-                </a>
-                {% if next_mod %}
-                    <a href="{{ url_for('module.view_module', module_id=next_mod.id) }}" class="btn btn-primary px-4 shadow">
-                        Next Module <i class="bi bi-arrow-right ms-1"></i>
-                    </a>
+                {% if is_final_quiz %}
+                    {% if passed %}
+                        <a href="{{ url_for('certificate.view_certificate', course_id=course.id) }}" class="btn btn-warning btn-lg fw-bold text-dark px-4 shadow">
+                            <i class="bi bi-award-fill me-2"></i> Claim Your Certificate Now!
+                        </a>
+                        <a href="{{ url_for('module.view_course', course_id=course.id) }}" class="btn btn-outline-light px-4">
+                            <i class="bi bi-grid me-1"></i> Course Syllabus
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('quiz.take_final_quiz', course_id=course.id) }}" class="btn btn-primary btn-lg px-4 shadow">
+                            <i class="bi bi-arrow-repeat me-1"></i> Retake Final Exam (15 MCQs)
+                        </a>
+                        <a href="{{ url_for('module.view_course', course_id=course.id) }}" class="btn btn-outline-light px-4">
+                            <i class="bi bi-book me-1"></i> Review Course Modules
+                        </a>
+                    {% endif %}
                 {% else %}
-                    <a href="{{ url_for('module.view_course', course_id=module.course_id) }}" class="btn btn-success px-4 shadow">
-                        View Course Overview <i class="bi bi-check2 ms-1"></i>
+                    <a href="{{ url_for('module.view_module', module_id=module.id) }}" class="btn btn-outline-light px-4">
+                        <i class="bi bi-book me-1"></i> Return to Module
                     </a>
+                    <a href="{{ url_for('quiz.take_quiz', module_id=module.id) }}" class="btn btn-outline-secondary px-3 text-white">
+                        <i class="bi bi-arrow-clockwise me-1"></i> Retake
+                    </a>
+                    {% if next_mod %}
+                        <a href="{{ url_for('module.view_module', module_id=next_mod.id) }}" class="btn btn-primary px-4 shadow">
+                            Next Module <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('module.view_course', course_id=module.course_id) }}" class="btn btn-success px-4 shadow">
+                            View Course Overview <i class="bi bi-check2 ms-1"></i>
+                        </a>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
@@ -62,7 +90,7 @@
     <!-- Detailed Answer-by-Answer Feedback Breakdown -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="fw-bold text-dark mb-0"><i class="bi bi-card-checklist text-primary me-2"></i> Question Breakdown</h4>
-        <small class="text-muted">All 15 questions reviewed</small>
+        <small class="text-muted">All {{ total_questions }} Multiple-Choice Questions Reviewed</small>
     </div>
 
     <div class="d-flex flex-column gap-3 mb-4">
@@ -86,7 +114,7 @@
                 <div class="p-3 bg-light rounded-3 small mb-0">
                     <div class="row g-2">
                         <div class="col-md-6">
-                            <span class="text-muted">Your Submitted Answer:</span>
+                            <span class="text-muted">Your Selected Option:</span>
                             <div class="fw-semibold {% if r.is_correct %}text-success{% else %}text-danger{% endif %}">
                                 {{ r.user_answer }}
                             </div>

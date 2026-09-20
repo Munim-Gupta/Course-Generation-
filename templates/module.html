@@ -33,7 +33,7 @@
                 <div class="text-light-50 small">Course: {{ module.course_title }}</div>
             </div>
 
-            <div class="d-flex gap-2 flex-wrap">
+            <div class="d-flex gap-2 flex-wrap align-items-center">
                 {% if progress.video_watched == 1 %}
                     <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 fs-6">
                         <i class="bi bi-play-circle-fill me-1"></i> Video Watched ✓
@@ -46,9 +46,17 @@
                     </form>
                 {% endif %}
 
-                <a href="{{ url_for('quiz.take_quiz', module_id=module.id) }}" class="btn {% if progress.quiz_completed == 1 %}btn-outline-success{% else %}btn-primary{% endif %} btn-sm px-3 py-2 shadow-sm">
-                    <i class="bi bi-patch-question-fill me-1"></i> {% if progress.quiz_completed == 1 %}Review 15-Q Quiz{% else %}Start 15-Q Quiz{% endif %}
-                </a>
+                {% if progress.module_completed == 1 %}
+                    <span class="badge bg-success px-3 py-2 fs-6">
+                        <i class="bi bi-check-circle-fill me-1"></i> Module Completed ✓
+                    </span>
+                {% else %}
+                    <form action="{{ url_for('progress.mark_module_completed', module_id=module.id) }}" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-success btn-sm px-3 py-2 shadow-sm">
+                            <i class="bi bi-check2-circle me-1"></i> Mark Module as Completed
+                        </button>
+                    </form>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -96,24 +104,34 @@
 
                     {% if progress.video_watched != 1 %}
                         <form action="{{ url_for('progress.mark_video_watched', module_id=module.id) }}" method="POST">
+                            <button type="submit" class="btn btn-outline-success w-100 py-2 fw-semibold shadow-sm mb-2">
+                                <i class="bi bi-play-btn me-1"></i> Mark Video as Watched
+                            </button>
+                        </form>
+                    {% endif %}
+
+                    {% if progress.module_completed != 1 %}
+                        <form action="{{ url_for('progress.mark_module_completed', module_id=module.id) }}" method="POST">
                             <button type="submit" class="btn btn-success w-100 py-2 fw-semibold shadow-sm mb-2">
-                                <i class="bi bi-check2-circle me-1"></i> Mark Video as Watched
+                                <i class="bi bi-check2-circle me-1"></i> Mark Module as Completed ✓
                             </button>
                         </form>
                     {% else %}
                         <div class="alert alert-success py-2 px-3 mb-2 small text-center">
-                            <i class="bi bi-check-circle-fill me-1"></i> Video requirement satisfied
+                            <i class="bi bi-check-circle-fill me-1"></i> Module completed successfully!
                         </div>
                     {% endif %}
 
-                    <a href="{{ url_for('quiz.take_quiz', module_id=module.id) }}" class="btn btn-primary w-100 py-2 fw-semibold shadow-sm">
-                        <i class="bi bi-patch-question-fill me-1"></i> Take Module Quiz (15 Qs)
-                    </a>
+                    {% if not next_mod %}
+                        <a href="{{ url_for('quiz.take_final_quiz', course_id=module.course_id) }}" class="btn btn-warning w-100 py-2 fw-bold text-dark shadow-sm mt-2">
+                            <i class="bi bi-patch-question-fill me-1"></i> Final Certification Exam &rarr;
+                        </a>
+                    {% endif %}
                 </div>
 
                 <!-- Module Completion Tracker Widget -->
                 <div class="p-3 pt-0 border-top bg-light">
-                    <div class="small fw-bold text-muted text-uppercase mb-2 pt-2">Requirements Checklist</div>
+                    <div class="small fw-bold text-muted text-uppercase mb-2 pt-2">Module Learning Checklist</div>
                     <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
                         <li class="d-flex align-items-center">
                             {% if progress.video_watched == 1 %}
@@ -125,12 +143,12 @@
                             {% endif %}
                         </li>
                         <li class="d-flex align-items-center">
-                            {% if progress.quiz_completed == 1 %}
+                            {% if progress.module_completed == 1 %}
                                 <i class="bi bi-check-circle-fill text-success fs-5 me-2"></i>
-                                <span>2. 15-question quiz completed</span>
+                                <span>2. Module notes reviewed & completed</span>
                             {% else %}
                                 <i class="bi bi-circle text-muted fs-5 me-2"></i>
-                                <span class="text-muted">2. 15-question quiz pending</span>
+                                <span class="text-muted">2. Module study pending</span>
                             {% endif %}
                         </li>
                     </ul>
@@ -164,8 +182,8 @@
                         Next Module <i class="bi bi-arrow-right ms-1"></i>
                     </a>
                 {% else %}
-                    <a href="{{ url_for('module.view_course', course_id=module.course_id) }}" class="btn btn-success shadow-sm">
-                        Finish Course <i class="bi bi-check2 ms-1"></i>
+                    <a href="{{ url_for('quiz.take_final_quiz', course_id=module.course_id) }}" class="btn btn-warning fw-bold text-dark shadow-sm">
+                        <i class="bi bi-patch-question-fill me-1"></i> Final Certification Exam <i class="bi bi-arrow-right ms-1"></i>
                     </a>
                 {% endif %}
             </div>

@@ -16,18 +16,22 @@
                     <span class="badge bg-light text-dark"><i class="bi bi-layers me-1"></i> {{ course.module_count }} Modules</span>
                 </div>
                 <h2 class="fw-bold mb-2">{{ course.title }}</h2>
-                <p class="text-light-50 small mb-0">Complete all video lessons and 15-question module quizzes to unlock your verified certificate.</p>
+                <p class="text-light-50 small mb-0">Study each module's notes & video lessons, then complete the 15-question Final Certification Exam (&ge; 60%) to claim your certificate.</p>
             </div>
             <div class="col-lg-4 text-lg-end mt-3 mt-lg-0 d-flex flex-column gap-2">
                 <a href="{{ url_for('pdf.download_course_pdf', course_id=course.id) }}" class="btn btn-outline-light btn-sm shadow-sm">
                     <i class="bi bi-file-earmark-pdf-fill me-1 text-danger"></i> Download Full Syllabus (PDF)
                 </a>
-                {% if progress_pct == 100 %}
+                {% if progress_pct == 100 and final_quiz_passed %}
                     <a href="{{ url_for('certificate.view_certificate', course_id=course.id) }}" class="btn btn-warning btn-sm fw-bold text-dark shadow-sm">
-                        <i class="bi bi-award-fill me-1"></i> Claim Certificate
+                        <i class="bi bi-award-fill me-1"></i> View & Claim Certificate
+                    </a>
+                {% elif progress_pct == 100 %}
+                    <a href="{{ url_for('quiz.take_final_quiz', course_id=course.id) }}" class="btn btn-warning btn-sm fw-bold text-dark shadow-sm">
+                        <i class="bi bi-patch-question-fill me-1"></i> Take Final Exam (15 MCQs)
                     </a>
                 {% else %}
-                    <button class="btn btn-secondary btn-sm opacity-75" disabled title="Complete all modules to unlock certificate">
+                    <button class="btn btn-secondary btn-sm opacity-75" disabled title="Complete all modules & final exam to unlock certificate">
                         <i class="bi bi-lock-fill me-1"></i> Certificate Locked ({{ progress_pct }}%)
                     </button>
                 {% endif %}
@@ -37,13 +41,55 @@
         <!-- Progress Tracker Bar -->
         <div class="mt-4 pt-3 border-top border-secondary">
             <div class="d-flex justify-content-between align-items-center small mb-1">
-                <span>Course Completion Status</span>
+                <span>Modules Learning Progress</span>
                 <span class="fw-bold {% if progress_pct == 100 %}text-success{% else %}text-primary{% endif %}">
                     {{ completed_count }} of {{ total_count }} Modules Completed ({{ progress_pct }}%)
                 </span>
             </div>
             <div class="progress" style="height: 10px;">
                 <div class="progress-bar {% if progress_pct == 100 %}bg-success{% else %}bg-primary progress-bar-striped progress-bar-animated{% endif %}" style="width: {{ progress_pct }}%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Step: Certification Exam Card -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 {% if final_quiz_passed %}bg-success-subtle border-start border-success border-5{% else %}bg-primary-subtle border-start border-primary border-5{% endif %}">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge {% if final_quiz_passed %}bg-success{% else %}bg-primary{% endif %} text-uppercase px-3 py-1">
+                        Final Step Before Certification
+                    </span>
+                    {% if final_quiz_passed %}
+                        <span class="badge bg-success text-white">
+                            <i class="bi bi-check-circle-fill me-1"></i> Exam Passed ({% if final_attempt %}{{ final_attempt.best_score }}{% else %}15{% endif %}/15)
+                        </span>
+                    {% elif final_attempt %}
+                        <span class="badge bg-warning text-dark">
+                            <i class="bi bi-exclamation-circle-fill me-1"></i> Score: {{ final_attempt.best_score }}/15 (60% required to pass)
+                        </span>
+                    {% else %}
+                        <span class="badge bg-light text-dark border">Pending</span>
+                    {% endif %}
+                </div>
+                <h4 class="fw-bold text-dark mb-1">Course Certification Exam (15 MCQs)</h4>
+                <p class="text-muted small mb-0">
+                    A single comprehensive multiple-choice exam covering all {{ course.module_count }} modules. Every question has 4 options (A, B, C, D). A score of 60% (9/15) is required to unlock your verified course certificate.
+                </p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0 d-flex flex-column flex-sm-row justify-content-lg-end gap-2">
+                {% if final_quiz_passed %}
+                    <a href="{{ url_for('certificate.view_certificate', course_id=course.id) }}" class="btn btn-warning fw-bold text-dark shadow-sm">
+                        <i class="bi bi-award-fill me-1"></i> Claim Certificate
+                    </a>
+                    <a href="{{ url_for('quiz.take_final_quiz', course_id=course.id) }}" class="btn btn-outline-success btn-sm">
+                        <i class="bi bi-arrow-repeat me-1"></i> Retake Exam
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('quiz.take_final_quiz', course_id=course.id) }}" class="btn btn-primary fw-bold shadow-sm">
+                        <i class="bi bi-patch-question-fill me-1"></i> Start Final Certification Quiz
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -63,12 +109,12 @@
             <div class="col-12">
                 <div class="card border-0 shadow-sm rounded-4 p-3 bg-white module-row-card {% if p.module_completed == 1 %}border-start border-success border-4{% endif %}">
                     <div class="row align-items-center">
-                        <div class="col-md-7">
+                        <div class="col-md-8">
                             <div class="d-flex align-items-center mb-1">
                                 <span class="badge bg-light text-primary border me-2 fw-bold">Module {{ m.module_number }}</span>
                                 {% if p.module_completed == 1 %}
                                     <span class="badge bg-success-subtle text-success border border-success-subtle">
-                                        <i class="bi bi-check-circle-fill me-1"></i> Completed
+                                        <i class="bi bi-check-circle-fill me-1"></i> Completed ✓
                                     </span>
                                 {% else %}
                                     <span class="badge bg-light text-muted border">In Progress</span>
@@ -85,27 +131,21 @@
                                     {% endif %}
                                 </span>
                                 <span>
-                                    {% if p.quiz_completed == 1 %}
-                                        <i class="bi bi-check-circle-fill text-success me-1"></i> Quiz Done
-                                        {% if item.quiz_score is not none %}
-                                            <span class="fw-semibold text-dark">({{ item.quiz_score }}/15)</span>
-                                        {% endif %}
+                                    {% if p.module_completed == 1 %}
+                                        <i class="bi bi-check-circle-fill text-success me-1"></i> Notes Studied
                                     {% else %}
-                                        <i class="bi bi-circle text-muted me-1"></i> Quiz Pending (15 Questions)
+                                        <i class="bi bi-circle text-muted me-1"></i> Notes In Progress
                                     {% endif %}
                                 </span>
                             </div>
                         </div>
 
-                        <div class="col-md-5 text-md-end mt-3 mt-md-0 d-flex flex-wrap justify-content-md-end gap-2">
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0 d-flex flex-wrap justify-content-md-end gap-2">
                             <a href="{{ url_for('module.view_module', module_id=m.id) }}" class="btn btn-primary btn-sm px-3 shadow-sm">
-                                <i class="bi bi-book-half me-1"></i> Open Module
-                            </a>
-                            <a href="{{ url_for('quiz.take_quiz', module_id=m.id) }}" class="btn {% if p.quiz_completed == 1 %}btn-outline-success{% else %}btn-outline-primary{% endif %} btn-sm px-3">
-                                <i class="bi bi-patch-question me-1"></i> {% if p.quiz_completed == 1 %}Retake Quiz{% else %}Take Quiz{% endif %}
+                                <i class="bi bi-book-half me-1"></i> Study Module
                             </a>
                             <a href="{{ url_for('pdf.download_module_pdf', module_id=m.id) }}" class="btn btn-light btn-sm border" title="Download Notes as PDF">
-                                <i class="bi bi-download text-secondary"></i>
+                                <i class="bi bi-download text-secondary"></i> PDF
                             </a>
                         </div>
                     </div>

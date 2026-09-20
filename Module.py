@@ -17,7 +17,7 @@ from flask import Blueprint, render_template, redirect, url_for, session, flash
 import markdown
 from Database_Connection import query_db
 from Login import login_required
-from Progress import calculate_course_progress, get_or_create_progress
+from Progress import calculate_course_progress, get_or_create_progress, is_course_final_quiz_passed
 
 module_bp = Blueprint("module", __name__)
 
@@ -63,13 +63,23 @@ def view_course(course_id):
 
     progress_pct, completed_count, total_count = calculate_course_progress(user_id, course_id)
 
+    # Final certification quiz status
+    final_quiz_passed = is_course_final_quiz_passed(user_id, course_id)
+    final_attempt = query_db(
+        "SELECT MAX(score) as best_score, total_questions, passed FROM quiz_attempts WHERE user_id = ? AND course_id = ?",
+        (user_id, course_id),
+        one=True
+    )
+
     return render_template(
         "course.html",
         course=course,
         modules=modules_with_progress,
         progress_pct=progress_pct,
         completed_count=completed_count,
-        total_count=total_count
+        total_count=total_count,
+        final_quiz_passed=final_quiz_passed,
+        final_attempt=final_attempt
     )
 
 

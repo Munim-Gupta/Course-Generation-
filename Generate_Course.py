@@ -17,7 +17,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from Database_Connection import execute_db, query_db
 from Login import login_required
 from Course_Generator_Engine import generate_course_modules
-from Quiz_Generator import generate_module_questions
+from Quiz_Generator import generate_final_certification_quiz, generate_module_questions
 from Progress import get_or_create_progress
 
 generate_course_bp = Blueprint("generate_course", __name__)
@@ -76,13 +76,13 @@ def generate_course():
                 mod_info["video_url"]
             ))
 
-            # Automatically generate exactly 15 questions for each module
-            generate_module_questions(module_id, topic, difficulty, mod_info["title"])
-
             # Initialize progress tracking entry for the user
             get_or_create_progress(user_id, module_id)
 
-        flash(f"'{course_title}' generated successfully with {module_count} modules and automated quizzes!", "success")
+        # Automatically generate exactly 15 comprehensive MCQs for the Final Certification Quiz
+        generate_final_certification_quiz(course_id, topic, difficulty, [m["title"] for m in modules_data])
+
+        flash(f"'{course_title}' generated successfully with {module_count} modules and Final Certification Exam!", "success")
         return redirect(url_for("module.view_course", course_id=course_id))
 
     return render_template("generate_course.html")

@@ -208,6 +208,34 @@ TOPIC_VIDEOS = {
         "https://www.youtube.com/embed/bfmFfD2RIcg",  # 10: Feature Engineering
         "https://www.youtube.com/embed/aircAruvnKk",  # 11: Neural Networks & Deep Learning
         "https://www.youtube.com/embed/mKV_K2f25wI",  # 12: End-to-End ML Pipeline
+    ],
+    "data science": [
+        "https://www.youtube.com/embed/LHBE6Q9XlzI",  # 1: Python for Data Science Overview
+        "https://www.youtube.com/embed/r-uOLxNrNk8",  # 2: NumPy Arrays & Vectorized Math
+        "https://www.youtube.com/embed/vmEHCJofslg",  # 3: Pandas DataFrames & Series
+        "https://www.youtube.com/embed/bDhvCp3_lYw",  # 4: Data Cleaning & Missing Values
+        "https://www.youtube.com/embed/txMdrV1Ut64",  # 5: GroupBy, Aggregation & Pivots
+        "https://www.youtube.com/embed/3Xc3CA655Y4",  # 6: Matplotlib Plotting & Charts
+        "https://www.youtube.com/embed/ooqXQ37XHMM",  # 7: Seaborn Statistical Graphics
+        "https://www.youtube.com/embed/fHFO4UhUr4Y",  # 8: Exploratory Data Analysis (EDA)
+        "https://www.youtube.com/embed/0Lt9w-BxKFQ",  # 9: Introduction to Scikit-Learn
+        "https://www.youtube.com/embed/Gv9_4yMHFhI",  # 10: Supervised Learning & Regression
+        "https://www.youtube.com/embed/i_LwzRVP7bg",  # 11: Classification & Model Metrics
+        "https://www.youtube.com/embed/NWONt4-hmMc",  # 12: End-to-End Data Science Project
+    ],
+    "web development": [
+        "https://www.youtube.com/embed/mU6anWqZJcc",  # 1: HTML5 Document Architecture
+        "https://www.youtube.com/embed/1Rs2ND1ryYc",  # 2: CSS3 Styling & Box Model
+        "https://www.youtube.com/embed/fYq5PXgSsbE",  # 3: CSS Flexbox Layouts
+        "https://www.youtube.com/embed/rg7Fvvl3taU",  # 4: CSS Grid Systems
+        "https://www.youtube.com/embed/W6NZfCO5SIk",  # 5: JavaScript Web Foundations
+        "https://www.youtube.com/embed/y17RuWkWdn8",  # 6: DOM Selection & Manipulation
+        "https://www.youtube.com/embed/yEsmrF4_Zc0",  # 7: Event Handling & Forms
+        "https://www.youtube.com/embed/cuEtnrL9-H0",  # 8: Async JS, Promises & Fetch API
+        "https://www.youtube.com/embed/Oe421EPjeBE",  # 9: Backend Routing & Server APIs
+        "https://www.youtube.com/embed/HXV3zeQKqGY",  # 10: Database Integration & CRUD
+        "https://www.youtube.com/embed/G0jO8kUrg-I",  # 11: Fullstack Web App Assembly
+        "https://www.youtube.com/embed/PlxWfBi3358",  # 12: Deployment & Cloud Hosting
     ]
 }
 
@@ -364,8 +392,104 @@ CURRICULA = {
             ("Query Processing & Execution Optimization", "Query parsing, relational query trees, cost estimation, and join algorithm strategies."),
             ("Capstone: Enterprise Database Architecture Design", "Designing a scalable normalized database schema for a modern web application.")
         ]
+    },
+    "data science": {
+        "beginner": [
+            ("Introduction to Python for Data Science", "Overview of the data science lifecycle, Jupyter notebooks, Python environment, and core scientific libraries."),
+            ("NumPy Arrays & Vectorized Computation", "Creating ndarrays, array slicing, mathematical broadcasting, and vectorized operations over loops."),
+            ("Pandas Series & DataFrames", "Data structures for tabular data, index alignment, reading CSV/Excel files, and inspecting data shapes."),
+            ("Data Indexing, Selection & Filtering", "loc, iloc, boolean masks, conditional filtering, and querying datasets efficiently."),
+            ("Data Cleaning & Handling Missing Values", "Detecting nulls with isnull(), imputation techniques with fillna(), dropping duplicates, and data type casting."),
+            ("Data Aggregation, GroupBy & Pivot Tables", "Split-apply-combine strategy with groupby(), computing aggregate statistics (mean, median, sum), and pivot tables."),
+            ("Data Merging, Joining & Concatenation", "Combining disparate datasets using pd.concat(), pd.merge() with inner/left/outer joins, and index alignment."),
+            ("Data Visualization with Matplotlib", "Plotting line graphs, scatter plots, bar charts, subplots, labeling axes, and styling figures."),
+            ("Statistical Plotting with Seaborn", "Distribution plots, box plots, violin plots, correlation heatmaps, and pairplots for feature exploration."),
+            ("Exploratory Data Analysis (EDA) Workflow", "Systematic EDA methodology: univariate/bivariate analysis, detecting outliers, and summarizing business insights."),
+            ("Introduction to Scikit-Learn & Feature Scaling", "Model API structure, StandardScaler, MinMaxScaler, train_test_split(), and preventing data leakage."),
+            ("Capstone: End-to-End Data Analysis Case Study", "Cleaning a raw dataset, executing rigorous EDA, generating visualizations, and extracting actionable data insights.")
+        ],
+        "intermediate": [
+            ("Statistical Inference & Hypothesis Testing", "Normal distribution, p-values, t-tests, ANOVA, and confidence intervals in data evaluation."),
+            ("Feature Engineering & Categorical Encoding", "One-hot encoding, ordinal encoding, log transformations, and interaction terms."),
+            ("Supervised Learning: Linear & Ridge Regression", "Cost functions, gradient descent, evaluating with MSE, RMSE, R-squared, and L1/L2 regularization."),
+            ("Classification: Logistic Regression & Decision Trees", "Binary/multiclass classification, confusion matrix, precision, recall, F1-score, and ROC-AUC curves."),
+            ("Ensemble Methods: Random Forests & Gradient Boosting", "Bagging vs boosting, hyperparameter tuning with GridSearchCV, feature importance analysis."),
+            ("Unsupervised Learning: K-Means & PCA", "Clustering algorithms, elbow method, dimensionality reduction with Principal Component Analysis."),
+            ("Time Series Analysis & Forecasting", "Datetime indexing, rolling averages, seasonality, trend decomposition, and ARIMA foundations."),
+            ("Model Deployment & Streamlit Dashboards", "Serializing models with joblib/pickle, building interactive data dashboards with Streamlit.")
+        ]
+    },
+    "web development": {
+        "beginner": [
+            ("Modern Web Architecture & HTML5 Semantic Structure", "Client-server architecture, HTTP requests, DNS, and modern semantic HTML5 markup."),
+            ("CSS3 Styling, Box Model & Typography", "CSS syntax, selectors, specificity, colors, typography, margins, padding, and border box models."),
+            ("Responsive Layouts with CSS Flexbox", "Flex container, main/cross axes, justify-content, align-items, and building flexible navigation bars."),
+            ("Modern Grid Systems with CSS Grid", "Grid templates, columns, rows, grid areas, auto-fit/auto-fill, and multi-column responsive cards."),
+            ("Responsive Web Design & Mobile-First Media Queries", "Viewport meta tag, fluid units (rem, %, vh, vw), media queries, and responsive breakpoint design."),
+            ("JavaScript Fundamentals for the Web", "Variables, data types, functions, control flow, array methods, and modern ES6+ features."),
+            ("DOM Manipulation & Dynamic UI Updates", "Selecting elements with querySelector, updating text/HTML, modifying styles, and adding dynamic classes."),
+            ("Event Handling & User Interactivity", "Event listeners, click/input/submit events, event propagation (bubbling), and form validation."),
+            ("Asynchronous JavaScript, Fetch API & JSON", "Promises, async/await syntax, making GET/POST requests to REST APIs, and parsing JSON payloads."),
+            ("Backend Fundamentals & Express / Flask Routing", "Server-side architecture, HTTP methods (GET, POST, PUT, DELETE), URL routing, and request/response lifecycles."),
+            ("Database Integration & CRUD Operations", "Connecting web backends to SQL/NoSQL databases, writing queries, and handling data persistence safely."),
+            ("Capstone: Fullstack Interactive Web Application", "Synthesizing HTML, CSS, JavaScript, and backend APIs to build an end-to-end web application.")
+        ]
+    },
+    "machine learning": {
+        "beginner": [
+            ("Machine Learning Foundations & Problem Types", "Supervised vs unsupervised vs reinforcement learning, ML workflow, and mathematical intuitions."),
+            ("Python Data Science Stack for ML", "NumPy arrays, Pandas matrices, vector math, and tensor shapes."),
+            ("Data Preprocessing & Train-Test Splits", "Missing values, encoding categoricals, feature scaling, and train_test_split without data leakage."),
+            ("Linear Regression & Cost Minimization", "Ordinary least squares, Mean Squared Error, gradient descent optimization, and evaluation metrics."),
+            ("Classification with Logistic Regression", "Sigmoid activation, binary cross-entropy, decision boundaries, and probability thresholds."),
+            ("Decision Trees & Information Gain", "Splitting criteria, Gini impurity, entropy, tree depth, and mitigating overfitting."),
+            ("Random Forests & Ensemble Learning", "Bootstrap aggregating (Bagging), feature randomness, out-of-bag error, and voting ensembles."),
+            ("Support Vector Machines (SVM)", "Hyperplanes, maximal margin classifiers, and kernel functions (RBF, Polynomial)."),
+            ("Unsupervised Clustering with K-Means", "Centroid initialization, inertia, elbow method, and silhouette analysis."),
+            ("Model Evaluation & Diagnostic Metrics", "Confusion matrix, Precision, Recall, F1-Score, ROC-AUC curves, and K-Fold Cross-Validation."),
+            ("Introduction to Artificial Neural Networks", "Perceptrons, multi-layer feedforward networks, backpropagation, and activation functions."),
+            ("Capstone: End-to-End Predictive Machine Learning Pipeline", "Complete model training pipeline from raw data ingest to evaluation and persistence.")
+        ]
     }
 }
+
+
+def normalize_topic_key(topic):
+    """
+    Normalizes user-input topics into standardized canonical curriculum keys.
+    Handles compound names (e.g., 'python datascience' -> 'data science',
+    'full stack web dev' -> 'web development').
+    """
+    topic_str = topic.strip().lower()
+    if any(k in topic_str for k in ["data science", "datascience", "data-science", "data analytics"]):
+        return "data science"
+    if any(k in topic_str for k in ["web dev", "webdev", "web development", "full stack", "fullstack", "frontend", "backend"]):
+        return "web development"
+    if any(k in topic_str for k in ["machine learning", "ml", "deep learning", "artificial intelligence", "ai"]):
+        return "machine learning"
+    if "python" in topic_str:
+        return "python"
+    if "javascript" in topic_str or topic_str == "js":
+        return "javascript"
+    if "html" in topic_str:
+        return "html"
+    if "css" in topic_str:
+        return "css"
+    if "react" in topic_str:
+        return "react"
+    if "sql" in topic_str:
+        return "sql"
+    if "dbms" in topic_str or "database" in topic_str:
+        return "dbms"
+    if "c++" in topic_str or "cpp" in topic_str:
+        return "c++"
+    if "java" in topic_str:
+        return "java"
+    if "docker" in topic_str:
+        return "docker"
+    if "git" in topic_str:
+        return "git"
+    return topic_str
 
 
 def get_video_url(topic, module_index=0, module_title=""):
@@ -373,25 +497,33 @@ def get_video_url(topic, module_index=0, module_title=""):
     Returns a verified educational YouTube embed URL specifically tailored
     to the course topic, curriculum stage, and module subject.
     """
-    topic_key = topic.strip().lower()
+    norm_key = normalize_topic_key(topic)
 
-    # 1. Direct match in curated topic tracks
+    # 1. Direct match with normalized key
+    if norm_key in TOPIC_VIDEOS:
+        videos = TOPIC_VIDEOS[norm_key]
+        return videos[module_index % len(videos)]
+
+    topic_key = topic.strip().lower()
+    # 2. Direct match with raw topic key
     if topic_key in TOPIC_VIDEOS:
         videos = TOPIC_VIDEOS[topic_key]
         return videos[module_index % len(videos)]
 
-    # 2. Keyword match in curated tracks (e.g., "reactjs" -> "react", "machine learning with python" -> "machine learning")
+    # 3. Keyword match in curated tracks
     for key, videos in TOPIC_VIDEOS.items():
-        if key in topic_key:
+        if key in topic_key or topic_key in key:
             return videos[module_index % len(videos)]
 
-    # 3. Dedicated CS foundational video mapping by stage for any custom topic
+    # 4. Dedicated CS foundational video mapping by stage for any custom topic
     return FALLBACK_CS_VIDEOS[module_index % len(FALLBACK_CS_VIDEOS)]
 
 
 def detect_concept_category(title, summary):
     """Identifies the underlying computer science/programming concept from title & summary."""
     text = f"{title} {summary}".lower()
+    if any(k in text for k in ["dataframe", "pandas", "numpy", "eda", "visualization", "matplotlib", "seaborn", "clean", "missing", "imput", "scikit", "regression", "classification", "data science", "datascience", "pivot"]):
+        return "data_science"
     if any(k in text for k in ["intro", "setup", "architecture", "overview", "installation", "environment", "compiler", "interpreter", "pipeline"]):
         return "setup_intro"
     if any(k in text for k in ["variable", "constant", "data type", "primitive", "memory model", "typing", "identifiers", "casting"]):
@@ -429,6 +561,143 @@ def generate_concept_code_and_output(clean_topic, title, summary, concept_cat, d
     tailored to the programming language or technology domain.
     """
     topic_lower = clean_topic.lower()
+
+    # --- DATA SCIENCE & ANALYTICS TRACK ---
+    if any(k in topic_lower for k in ["data science", "datascience", "data analytics"]) or concept_cat == "data_science":
+        t_low = title.lower()
+        if any(k in t_low for k in ["numpy", "vector", "array"]):
+            code = (
+                "import numpy as np\n\n"
+                "# Vectorized computations and statistical operations\n"
+                "sensor_readings = np.array([21.5, 22.1, 19.8, 23.4, 20.9, 24.2])\n"
+                "normalized = (sensor_readings - np.mean(sensor_readings)) / np.std(sensor_readings)\n\n"
+                "print('Original Readings:', sensor_readings)\n"
+                "print('Mean Value:', round(float(np.mean(sensor_readings)), 2))\n"
+                "print('Std Deviation:', round(float(np.std(sensor_readings)), 2))\n"
+                "print('Z-Score Normalized:', np.round(normalized, 3))"
+            )
+            out = (
+                "Original Readings: [21.5 22.1 19.8 23.4 20.9 24.2]\n"
+                "Mean Value: 21.98\n"
+                "Std Deviation: 1.48\n"
+                "Z-Score Normalized: [-0.327  0.079 -1.474  0.957 -0.732  1.498]"
+            )
+        elif any(k in t_low for k in ["clean", "missing", "null", "imput"]):
+            code = (
+                "import pandas as pd\nimport numpy as np\n\n"
+                "data = {\n"
+                "    'Student': ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve'],\n"
+                "    'Score': [88, np.nan, 92, 79, np.nan],\n"
+                "    'Attendance': [95, 80, np.nan, 90, 85]\n"
+                "}\n"
+                "df = pd.DataFrame(data)\n"
+                "print('--- Null Counts Before Imputation ---')\n"
+                "print(df.isnull().sum())\n\n"
+                "# Impute missing scores with mean and attendance with median\n"
+                "df['Score'] = df['Score'].fillna(df['Score'].mean())\n"
+                "df['Attendance'] = df['Attendance'].fillna(df['Attendance'].median())\n\n"
+                "print('\\n--- Cleaned DataFrame ---')\n"
+                "print(df.round(2))"
+            )
+            out = (
+                "--- Null Counts Before Imputation ---\n"
+                "Student       0\n"
+                "Score         2\n"
+                "Attendance    1\n"
+                "dtype: int64\n\n"
+                "--- Cleaned DataFrame ---\n"
+                "   Student  Score  Attendance\n"
+                "0    Alice  88.00        95.0\n"
+                "1      Bob  86.33        80.0\n"
+                "2  Charlie  92.00        87.5\n"
+                "3    Diana  79.00        90.0\n"
+                "4      Eve  86.33        85.0"
+            )
+        elif any(k in t_low for k in ["group", "pivot", "aggregat"]):
+            code = (
+                "import pandas as pd\n\n"
+                "records = {\n"
+                "    'Region': ['North', 'South', 'North', 'East', 'South', 'East'],\n"
+                "    'Category': ['Tech', 'Tech', 'Office', 'Office', 'Tech', 'Office'],\n"
+                "    'Revenue': [12000, 8500, 4200, 3100, 9300, 4900]\n"
+                "}\n"
+                "df = pd.DataFrame(records)\n"
+                "summary = df.groupby('Region')['Revenue'].agg(['count', 'sum', 'mean'])\n"
+                "print('--- Regional Revenue Aggregations ---')\n"
+                "print(summary)"
+            )
+            out = (
+                "--- Regional Revenue Aggregations ---\n"
+                "        count    sum    mean\n"
+                "Region                      \n"
+                "East        2   8000  4000.0\n"
+                "North       2  16200  8100.0\n"
+                "South       2  17800  8900.0"
+            )
+        elif any(k in t_low for k in ["visual", "plot", "matplotlib", "seaborn", "chart"]):
+            code = (
+                "import matplotlib.pyplot as plt\n\n"
+                "months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']\n"
+                "active_users = [1200, 1850, 2400, 3100, 4200, 5600]\n\n"
+                "plt.figure(figsize=(8, 4))\n"
+                "plt.plot(months, active_users, marker='o', color='#4f46e5', linewidth=2.5, label='Active Users')\n"
+                "plt.title('Monthly Platform User Growth', fontsize=14, fontweight='bold')\n"
+                "plt.xlabel('Month')\n"
+                "plt.ylabel('Users')\n"
+                "plt.grid(True, linestyle='--', alpha=0.6)\n"
+                "plt.legend()\n"
+                "plt.tight_layout()\n"
+                "print('[SUCCESS] Matplotlib chart rendered successfully (6 points).')"
+            )
+            out = (
+                "[SUCCESS] Matplotlib chart rendered successfully (6 points).\n"
+                "Plot properties: 8x4 inches | Series: 'Active Users' (line + markers)"
+            )
+        elif any(k in t_low for k in ["scikit", "learn", "model", "regression", "classif", "scale", "feature"]):
+            code = (
+                "from sklearn.model_selection import train_test_split\n"
+                "from sklearn.linear_model import LinearRegression\n"
+                "from sklearn.metrics import mean_squared_error, r2_score\n"
+                "import numpy as np\n\n"
+                "# Feature (Hours Studied) vs Target (Exam Score)\n"
+                "X = np.array([[2], [4], [5], [7], [8], [10], [12], [14]])\n"
+                "y = np.array([45, 58, 65, 78, 80, 89, 93, 98])\n\n"
+                "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)\n"
+                "model = LinearRegression().fit(X_train, y_train)\n"
+                "predictions = model.predict(X_test)\n\n"
+                "print(f'Slope (Coefficient): {model.coef_[0]:.2f}')\n"
+                "print(f'Intercept: {model.intercept_:.2f}')\n"
+                "print(f'R2 Score: {r2_score(y_test, predictions):.3f}')"
+            )
+            out = (
+                "Slope (Coefficient): 4.38\n"
+                "Intercept: 38.64\n"
+                "R2 Score: 0.984"
+            )
+        else:
+            code = (
+                "import pandas as pd\n\n"
+                "# Ingest tabular dataset & inspect distributions\n"
+                "dataset = {\n"
+                "    'Metric_A': [10.2, 14.5, 12.8, 19.3, 15.6],\n"
+                "    'Metric_B': [52, 68, 61, 84, 73],\n"
+                "    'Label': [1, 0, 1, 0, 1]\n"
+                "}\n"
+                "df = pd.DataFrame(dataset)\n"
+                "print('--- Dataset Summary ---')\n"
+                "print(df.describe().round(2))"
+            )
+            out = (
+                "--- Dataset Summary ---\n"
+                "       Metric_A  Metric_B  Label\n"
+                "count      5.00      5.00   5.00\n"
+                "mean      14.48     67.60   0.60\n"
+                "std        3.43     12.18   0.55\n"
+                "min       10.20     52.00   0.00\n"
+                "50%       14.50     68.00   1.00\n"
+                "max       19.30     84.00   1.00"
+            )
+        return code, out
 
     # --- PYTHON TRACK ---
     if "python" in topic_lower:
@@ -949,6 +1218,12 @@ def generate_notes_content(topic, title, summary, difficulty):
             ("Encoding & Serialization", "Consistently applying UTF-8 encoding avoids cross-platform character corruption."),
             ("Atomic Writes", "Writing to temporary files before replacing targets prevents corruption during unexpected crashes.")
         ],
+        "data_science": [
+            ("Vectorization & SIMD Computation", "Executing vector math on contiguous C-level memory buffers eliminates Python interpreter loop overhead."),
+            ("Data Cleaning & Preprocessing", "Imputing nulls, parsing datetime strings, and removing outliers prevents biased analytical models."),
+            ("Feature Alignment & Index Integrity", "Pandas aligns data across explicit index keys during joins and merges to ensure relational integrity."),
+            ("Statistical Validation", "Evaluating distributions, variances, and correlations guides informed feature engineering decisions.")
+        ],
         "error_handling": [
             ("Exception Hierarchies", "Catching specific exceptions rather than blanket generic handlers prevents masking critical errors."),
             ("Fail-Safe Recovery", "Providing graceful fallbacks ensures systems remain operational under partial failures."),
@@ -968,6 +1243,14 @@ def generate_notes_content(topic, title, summary, difficulty):
 
     # 3. Dynamic Viva Q&A
     viva_map = {
+        "data_science": [
+            ("What is vectorization in NumPy and Pandas and why is it preferred over loops?",
+             "Vectorization executes batch operations on contiguous array memory implemented in compiled C code, eliminating the massive overhead of standard Python loops."),
+            ("How should missing data (NaN) be handled during data preparation?",
+             "Depending on data loss tolerance and missingness mechanisms, missing values can be dropped, or imputed with domain constants, median/mean metrics, or predictive models."),
+            ("What is the difference between supervised and unsupervised learning?",
+             "Supervised learning trains on labeled target data to make accurate predictions on unseen inputs, whereas unsupervised algorithms discover latent patterns or clusters in unlabeled data.")
+        ],
         "setup_intro": [
             (f"What is the primary role of {clean_title} in {clean_topic}?",
              f"It establishes the execution environment and fundamental architectural guidelines required to compile, interpret, and run applications in {clean_topic}."),
@@ -1038,6 +1321,10 @@ def generate_notes_content(topic, title, summary, difficulty):
 
     # 4. Dynamic Pitfalls
     pitfalls_map = {
+        "data_science": [
+            "Data Leakage & Preprocessing Sequence Trap",
+            "Fitting transformers or imputers on the whole dataset rather than solely on training folds causes data leakage and unrealistic validation scores."
+        ],
         "setup_intro": [
             "Path & Environment Misconfiguration",
             "Failing to add the binary or tool path to system environment variables, causing 'command not found' errors."
@@ -1141,14 +1428,16 @@ def generate_course_modules(topic, difficulty, module_count):
     topic, difficulty level, and requested module count (3, 5, 8, 12).
     """
     topic_key = topic.strip().lower()
+    norm_key = normalize_topic_key(topic_key)
     diff_key = difficulty.strip().lower()
     count = int(module_count)
 
     curriculum = []
 
-    # Check if exact topic curriculum exists
-    if topic_key in CURRICULA:
-        topic_dict = CURRICULA[topic_key]
+    # Check normalized key first, then raw topic key
+    active_key = norm_key if norm_key in CURRICULA else (topic_key if topic_key in CURRICULA else None)
+    if active_key:
+        topic_dict = CURRICULA[active_key]
         if diff_key in topic_dict:
             curriculum = list(topic_dict[diff_key])
         else:

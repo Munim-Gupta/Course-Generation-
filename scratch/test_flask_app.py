@@ -148,12 +148,16 @@ def test_flask_routes():
     # 16. Verify Certificate is locked before 100% completion
     res = client.get(f"/certificate/{course_id}", follow_redirects=True)
     assert res.status_code == 200
-    assert b"You must complete all" in res.data
+    assert b"Complete all" in res.data
     print(f"[OK] GET /certificate/{course_id} properly locks certificate before 100% completion")
 
-    # 17. Complete remaining 4 modules to reach 100%
+    # 17. Complete remaining 4 modules to reach 100% and pass final certification exam
     for m in modules[1:]:
         execute_db("UPDATE progress SET video_watched = 1, quiz_completed = 1, module_completed = 1 WHERE user_id = ? AND module_id = ?", (user_id, m["id"]))
+    execute_db("""
+        INSERT INTO quiz_attempts (user_id, course_id, module_id, score, total_questions, passed)
+        VALUES (?, ?, ?, 15, 15, 1)
+    """, (user_id, course_id, modules[0]["id"]))
 
     # 18. View Certificate now that it is unlocked!
     res = client.get(f"/certificate/{course_id}")

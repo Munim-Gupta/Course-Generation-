@@ -129,6 +129,17 @@ def init_db():
         );
     """)
 
+    # Dynamic migrations for Final Certification Quiz
+    for migration in [
+        "ALTER TABLE questions ADD COLUMN course_id INTEGER DEFAULT 0;",
+        "ALTER TABLE quiz_attempts ADD COLUMN course_id INTEGER DEFAULT 0;",
+        "ALTER TABLE quiz_attempts ADD COLUMN passed INTEGER DEFAULT 0;"
+    ]:
+        try:
+            cursor.execute(migration)
+        except sqlite3.OperationalError:
+            pass
+
     conn.commit()
     conn.close()
 
