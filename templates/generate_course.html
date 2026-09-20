@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Generate Course | CourseGen{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header Card -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+                <div class="card-header bg-dark text-white p-4 border-0">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary text-white p-3 rounded-circle me-3">
+                            <i class="bi bi-cpu-fill fs-3"></i>
+                        </div>
+                        <div>
+                            <h3 class="fw-bold mb-1">Generate a New Course</h3>
+                            <p class="text-light-50 small mb-0">Powered by local Python rule engine & question bank (No external AI API)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5 bg-white">
+                    <form action="{{ url_for('generate_course.generate_course') }}" method="POST" id="courseForm">
+
+                        <!-- Topic Field -->
+                        <div class="mb-4">
+                            <label for="topic" class="form-label fw-bold">Course Topic / Technology <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg bg-light" id="topic" name="topic" placeholder="e.g. Python, HTML, CSS, JavaScript, SQL, C++, Java" required>
+                            <div class="form-text mt-2">
+                                <span class="fw-semibold">Quick select popular topics:</span>
+                                <div class="d-flex flex-wrap gap-2 mt-1">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary topic-pill" onclick="setTopic('Python')">Python</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary topic-pill" onclick="setTopic('HTML')">HTML</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary topic-pill" onclick="setTopic('CSS')">CSS</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary topic-pill" onclick="setTopic('JavaScript')">JavaScript</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary topic-pill" onclick="setTopic('SQL')">SQL</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary topic-pill" onclick="setTopic('Java')">Java</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary topic-pill" onclick="setTopic('C++')">C++</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <!-- Difficulty Level -->
+                            <div class="col-md-4">
+                                <label for="difficulty" class="form-label fw-bold">Difficulty Level</label>
+                                <select class="form-select bg-light" id="difficulty" name="difficulty" required>
+                                    <option value="Beginner" selected>Beginner</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Advanced">Advanced</option>
+                                </select>
+                            </div>
+
+                            <!-- Duration -->
+                            <div class="col-md-4">
+                                <label for="duration" class="form-label fw-bold">Duration</label>
+                                <select class="form-select bg-light" id="duration" name="duration" required>
+                                    <option value="2 Weeks">2 Weeks</option>
+                                    <option value="4 Weeks" selected>4 Weeks</option>
+                                    <option value="6 Weeks">6 Weeks</option>
+                                    <option value="8 Weeks">8 Weeks</option>
+                                </select>
+                            </div>
+
+                            <!-- Number of Modules -->
+                            <div class="col-md-4">
+                                <label for="module_count" class="form-label fw-bold">Number of Modules</label>
+                                <select class="form-select bg-light" id="module_count" name="module_count" required>
+                                    <option value="3">3 Modules (Express)</option>
+                                    <option value="5" selected>5 Modules (Standard)</option>
+                                    <option value="8">8 Modules (Comprehensive)</option>
+                                    <option value="12">12 Modules (In-Depth)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- System Transparency Info Box -->
+                        <div class="alert alert-light border rounded-3 p-3 mb-4 small">
+                            <h6 class="fw-bold text-dark mb-2"><i class="bi bi-info-circle-fill text-primary me-2"></i> What happens upon submission?</h6>
+                            <ul class="mb-0 text-muted ps-3">
+                                <li>The local Python engine structures your modules and creates comprehensive markdown notes.</li>
+                                <li>Curated educational video links are automatically linked to every module.</li>
+                                <li>The <strong>Quiz Generator</strong> creates exactly <strong>15 questions per module</strong> (8 MCQ, 4 True/False, 3 Short Answer) and persists them in SQLite.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary btn-lg w-100 py-3 fw-bold shadow-sm" id="generateBtn">
+                            <i class="bi bi-lightning-charge-fill me-2"></i> Generate Course & Quizzes Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function setTopic(name) {
+    document.getElementById('topic').value = name;
+}
+</script>
+{% endblock %}

@@ -1,0 +1,209 @@
+/* ==========================================================================
+   CourseGen - Custom CSS Styling
+   ========================================================================== */
+
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --dark-bg: #0f172a;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    color: var(--text-main);
+    background-color: #f8fafc;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- Cards & Elevations --- */
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid var(--border-color);
+}
+
+.course-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.08) !important;
+}
+
+.feature-card {
+    transition: transform 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-3px);
+}
+
+.feature-icon, .stat-icon {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+/* --- Notes Formatting --- */
+.notes-content {
+    line-height: 1.75;
+    color: #334155;
+    font-size: 0.975rem;
+}
+
+.notes-content h1 {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+}
+
+.notes-content h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding: 0.4rem 0.75rem;
+    background: #f8fafc;
+    border-left: 4px solid var(--primary-color);
+    border-radius: 0 8px 8px 0;
+}
+
+.notes-content h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.notes-content p {
+    margin-bottom: 1rem;
+}
+
+.notes-content hr {
+    margin: 2rem 0;
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    opacity: 0.8;
+}
+
+.notes-content pre, .notes-content code {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.notes-content code:not(pre code) {
+    background-color: #f1f5f9;
+    color: #2563eb;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.88em;
+    font-weight: 500;
+}
+
+.notes-content pre {
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 1.35rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    margin: 1.25rem 0;
+    border: 1px solid #1e293b;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.notes-content pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+}
+
+.notes-content ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.notes-content li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+.notes-content strong {
+    color: #0f172a;
+    font-weight: 600;
+}
+
+/* --- Quiz Custom Radio & Checkbox Styling --- */
+.custom-option {
+    transition: all 0.15s ease-in-out;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.custom-option:hover {
+    background-color: #f1f5f9;
+    border-color: var(--primary-color) !important;
+}
+
+.custom-option input[type="radio"]:checked + label {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.custom-option:has(input[type="radio"]:checked) {
+    background-color: #eff6ff;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* --- Certificate Container --- */
+.certificate-container {
+    background: #ffffff;
+}
+
+.certificate-inner {
+    background: radial-gradient(circle at center, #ffffff 0%, #fafafa 100%);
+}
+
+.cert-seal {
+    width: 64px;
+    height: 64px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+}
+
+/* --- Topic Selector Pills --- */
+.topic-pill:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-color: var(--primary-color);
+}

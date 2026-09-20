@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}{{ course.title }} | CourseGen{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <!-- Course Header Card -->
+    <div class="card border-0 shadow-sm rounded-4 bg-dark text-white p-4 mb-4">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <div class="d-flex gap-2 mb-2 flex-wrap">
+                    <span class="badge bg-primary text-uppercase">{{ course.topic }}</span>
+                    <span class="badge bg-secondary">{{ course.difficulty }}</span>
+                    <span class="badge bg-light text-dark"><i class="bi bi-clock me-1"></i> {{ course.duration }}</span>
+                    <span class="badge bg-light text-dark"><i class="bi bi-layers me-1"></i> {{ course.module_count }} Modules</span>
+                </div>
+                <h2 class="fw-bold mb-2">{{ course.title }}</h2>
+                <p class="text-light-50 small mb-0">Complete all video lessons and 15-question module quizzes to unlock your verified certificate.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0 d-flex flex-column gap-2">
+                <a href="{{ url_for('pdf.download_course_pdf', course_id=course.id) }}" class="btn btn-outline-light btn-sm shadow-sm">
+                    <i class="bi bi-file-earmark-pdf-fill me-1 text-danger"></i> Download Full Syllabus (PDF)
+                </a>
+                {% if progress_pct == 100 %}
+                    <a href="{{ url_for('certificate.view_certificate', course_id=course.id) }}" class="btn btn-warning btn-sm fw-bold text-dark shadow-sm">
+                        <i class="bi bi-award-fill me-1"></i> Claim Certificate
+                    </a>
+                {% else %}
+                    <button class="btn btn-secondary btn-sm opacity-75" disabled title="Complete all modules to unlock certificate">
+                        <i class="bi bi-lock-fill me-1"></i> Certificate Locked ({{ progress_pct }}%)
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Progress Tracker Bar -->
+        <div class="mt-4 pt-3 border-top border-secondary">
+            <div class="d-flex justify-content-between align-items-center small mb-1">
+                <span>Course Completion Status</span>
+                <span class="fw-bold {% if progress_pct == 100 %}text-success{% else %}text-primary{% endif %}">
+                    {{ completed_count }} of {{ total_count }} Modules Completed ({{ progress_pct }}%)
+                </span>
+            </div>
+            <div class="progress" style="height: 10px;">
+                <div class="progress-bar {% if progress_pct == 100 %}bg-success{% else %}bg-primary progress-bar-striped progress-bar-animated{% endif %}" style="width: {{ progress_pct }}%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Syllabus & Modules List -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-dark mb-0"><i class="bi bi-list-check me-2 text-primary"></i> Curriculum Modules</h4>
+        <a href="{{ url_for('dashboard.dashboard') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <div class="row g-3">
+        {% for item in modules %}
+            {% set m = item.module %}
+            {% set p = item.progress %}
+            <div class="col-12">
+                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white module-row-card {% if p.module_completed == 1 %}border-start border-success border-4{% endif %}">
+                    <div class="row align-items-center">
+                        <div class="col-md-7">
+                            <div class="d-flex align-items-center mb-1">
+                                <span class="badge bg-light text-primary border me-2 fw-bold">Module {{ m.module_number }}</span>
+                                {% if p.module_completed == 1 %}
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle">
+                                        <i class="bi bi-check-circle-fill me-1"></i> Completed
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-light text-muted border">In Progress</span>
+                                {% endif %}
+                            </div>
+                            <h5 class="fw-bold text-dark mb-2">{{ m.title }}</h5>
+
+                            <div class="d-flex gap-3 small text-muted flex-wrap">
+                                <span>
+                                    {% if p.video_watched == 1 %}
+                                        <i class="bi bi-check-circle-fill text-success me-1"></i> Video Watched
+                                    {% else %}
+                                        <i class="bi bi-circle text-muted me-1"></i> Video Pending
+                                    {% endif %}
+                                </span>
+                                <span>
+                                    {% if p.quiz_completed == 1 %}
+                                        <i class="bi bi-check-circle-fill text-success me-1"></i> Quiz Done
+                                        {% if item.quiz_score is not none %}
+                                            <span class="fw-semibold text-dark">({{ item.quiz_score }}/15)</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <i class="bi bi-circle text-muted me-1"></i> Quiz Pending (15 Questions)
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 text-md-end mt-3 mt-md-0 d-flex flex-wrap justify-content-md-end gap-2">
+                            <a href="{{ url_for('module.view_module', module_id=m.id) }}" class="btn btn-primary btn-sm px-3 shadow-sm">
+                                <i class="bi bi-book-half me-1"></i> Open Module
+                            </a>
+                            <a href="{{ url_for('quiz.take_quiz', module_id=m.id) }}" class="btn {% if p.quiz_completed == 1 %}btn-outline-success{% else %}btn-outline-primary{% endif %} btn-sm px-3">
+                                <i class="bi bi-patch-question me-1"></i> {% if p.quiz_completed == 1 %}Retake Quiz{% else %}Take Quiz{% endif %}
+                            </a>
+                            <a href="{{ url_for('pdf.download_module_pdf', module_id=m.id) }}" class="btn btn-light btn-sm border" title="Download Notes as PDF">
+                                <i class="bi bi-download text-secondary"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

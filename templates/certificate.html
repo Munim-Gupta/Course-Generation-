@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Certificate of Achievement | CourseGen{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <div class="text-center mb-4">
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-semibold mb-2">
+            <i class="bi bi-patch-check-fill me-1"></i> Course 100% Completed
+        </span>
+        <h2 class="fw-bold text-dark">Congratulations, {{ student_name }}! 🎉</h2>
+        <p class="text-muted">You have fulfilled all academic curriculum requirements, watched all video lectures, and passed every module assessment.</p>
+
+        <div class="d-flex justify-content-center gap-3 mt-3">
+            <a href="{{ url_for('certificate.download_certificate', course_id=course.id) }}" class="btn btn-primary btn-lg shadow-sm">
+                <i class="bi bi-file-earmark-arrow-down-fill me-2"></i> Download Official Certificate (PDF)
+            </a>
+            <a href="{{ url_for('dashboard.dashboard') }}" class="btn btn-outline-secondary btn-lg">
+                <i class="bi bi-speedometer2 me-2"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Interactive Certificate Canvas Preview -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="certificate-container p-4 p-md-5 bg-white shadow-lg rounded-4 text-center position-relative border border-warning border-3">
+                <!-- Inner Gold Border -->
+                <div class="certificate-inner p-4 p-md-5 border border-dark rounded-3">
+
+                    <div class="mb-3">
+                        <i class="bi bi-mortarboard-fill display-4 text-primary"></i>
+                    </div>
+
+                    <h6 class="text-uppercase tracking-wide text-primary fw-bold mb-1">Academic Verified Certification</h6>
+                    <h1 class="display-5 fw-bold text-dark mb-4">CERTIFICATE OF ACHIEVEMENT</h1>
+
+                    <p class="text-muted text-uppercase small mb-2">This is proudly presented to</p>
+                    <h2 class="display-6 fw-bold text-dark border-bottom border-secondary pb-2 d-inline-block px-5 mb-4">
+                        {{ student_name }}
+                    </h2>
+
+                    <p class="text-muted lead fs-6 mb-2">
+                        for successfully completing all curriculum modules, practical exercises, and quizzes in
+                    </p>
+
+                    <h3 class="fw-bold text-primary mb-3">
+                        {{ course.title }}
+                    </h3>
+
+                    <div class="text-muted small mb-5">
+                        <span><strong>Difficulty:</strong> {{ course.difficulty }}</span> &nbsp;|&nbsp;
+                        <span><strong>Duration:</strong> {{ course.duration }}</span> &nbsp;|&nbsp;
+                        <span><strong>Curriculum:</strong> {{ course.module_count }} Modules</span>
+                    </div>
+
+                    <div class="row align-items-end pt-4 border-top">
+                        <div class="col-4 text-center">
+                            <h6 class="fw-bold text-dark mb-1">{{ issue_date }}</h6>
+                            <small class="text-muted text-uppercase d-block border-top pt-1">Date of Issuance</small>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="cert-seal d-inline-block rounded-circle border border-primary p-3">
+                                <i class="bi bi-award-fill text-warning fs-2 d-block"></i>
+                                <small class="fw-bold text-primary d-block" style="font-size: 10px;">VERIFIED</small>
+                            </div>
+                            <small class="text-muted d-block mt-1" style="font-size: 11px;">ID: {{ cert_id }}</small>
+                        </div>
+                        <div class="col-4 text-center">
+                            <h6 class="fw-bold text-dark mb-1">Academic Dean</h6>
+                            <small class="text-muted text-uppercase d-block border-top pt-1">Course Instructor</small>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

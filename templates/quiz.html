@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz: Module {{ module.module_number }} | CourseGen{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <!-- Quiz Header -->
+    <div class="card border-0 shadow-sm rounded-4 bg-dark text-white p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <span class="badge bg-primary px-3 py-1 rounded-pill mb-2">Automated Assessment</span>
+                <h2 class="fw-bold mb-1">Module {{ module.module_number }} Quiz: {{ module.title }}</h2>
+                <p class="text-light-50 small mb-0">Total: 15 Questions (8 MCQ, 4 True/False, 3 Short Answer) • No Negative Marking</p>
+            </div>
+            <a href="{{ url_for('module.view_module', module_id=module.id) }}" class="btn btn-outline-light btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Back to Module Notes
+            </a>
+        </div>
+    </div>
+
+    <!-- Quiz Form -->
+    <form action="{{ url_for('quiz.take_quiz', module_id=module.id) }}" method="POST" id="quizForm">
+        <div class="d-flex flex-column gap-4 mb-4">
+            {% for q in questions %}
+                {% set q_num = loop.index %}
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white question-card" id="q-card-{{ q.id }}">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-light text-primary border fw-bold px-3 py-1">
+                            Question {{ q_num }} of {{ total_questions }}
+                        </span>
+                        <span class="badge bg-secondary-subtle text-secondary small text-uppercase">
+                            {% if q.question_type == 'mcq' %}
+                                Multiple Choice (MCQ)
+                            {% elif q.question_type == 'true_false' %}
+                                True / False
+                            {% else %}
+                                Short Answer
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <h5 class="fw-bold text-dark mb-4">{{ q.question }}</h5>
+
+                    <!-- MCQ Question -->
+                    {% if q.question_type == 'mcq' %}
+                        <div class="options-group d-flex flex-column gap-2">
+                            {% if q.option_a %}
+                                <div class="form-check custom-option p-3 border rounded-3">
+                                    <input class="form-check-input ms-0 me-3" type="radio" name="question_{{ q.id }}" id="q_{{ q.id }}_a" value="{{ q.option_a }}" required>
+                                    <label class="form-check-label w-100 cursor-pointer" for="q_{{ q.id }}_a">
+                                        <span class="fw-bold me-2">A.</span> {{ q.option_a }}
+                                    </label>
+                                </div>
+                            {% endif %}
+                            {% if q.option_b %}
+                                <div class="form-check custom-option p-3 border rounded-3">
+                                    <input class="form-check-input ms-0 me-3" type="radio" name="question_{{ q.id }}" id="q_{{ q.id }}_b" value="{{ q.option_b }}">
+                                    <label class="form-check-label w-100 cursor-pointer" for="q_{{ q.id }}_b">
+                                        <span class="fw-bold me-2">B.</span> {{ q.option_b }}
+                                    </label>
+                                </div>
+                            {% endif %}
+                            {% if q.option_c %}
+                                <div class="form-check custom-option p-3 border rounded-3">
+                                    <input class="form-check-input ms-0 me-3" type="radio" name="question_{{ q.id }}" id="q_{{ q.id }}_c" value="{{ q.option_c }}">
+                                    <label class="form-check-label w-100 cursor-pointer" for="q_{{ q.id }}_c">
+                                        <span class="fw-bold me-2">C.</span> {{ q.option_c }}
+                                    </label>
+                                </div>
+                            {% endif %}
+                            {% if q.option_d %}
+                                <div class="form-check custom-option p-3 border rounded-3">
+                                    <input class="form-check-input ms-0 me-3" type="radio" name="question_{{ q.id }}" id="q_{{ q.id }}_d" value="{{ q.option_d }}">
+                                    <label class="form-check-label w-100 cursor-pointer" for="q_{{ q.id }}_d">
+                                        <span class="fw-bold me-2">D.</span> {{ q.option_d }}
+                                    </label>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    <!-- True/False Question -->
+                    {% elif q.question_type == 'true_false' %}
+                        <div class="options-group d-flex flex-column gap-2">
+                            <div class="form-check custom-option p-3 border rounded-3">
+                                <input class="form-check-input ms-0 me-3" type="radio" name="question_{{ q.id }}" id="q_{{ q.id }}_t" value="True" required>
+                                <label class="form-check-label w-100 cursor-pointer fw-semibold text-success" for="q_{{ q.id }}_t">
+                                    <i class="bi bi-check-circle me-1"></i> True
+                                </label>
+                            </div>
+                            <div class="form-check custom-option p-3 border rounded-3">
+                                <input class="form-check-input ms-0 me-3" type="radio" name="question_{{ q.id }}" id="q_{{ q.id }}_f" value="False">
+                                <label class="form-check-label w-100 cursor-pointer fw-semibold text-danger" for="q_{{ q.id }}_f">
+                                    <i class="bi bi-x-circle me-1"></i> False
+                                </label>
+                            </div>
+                        </div>
+
+                    <!-- Short Answer Question -->
+                    {% else %}
+                        <div class="mb-2">
+                            <label for="input_{{ q.id }}" class="form-label text-muted small">Your Answer (Type concisely, e.g. function name, keyword, or concept):</label>
+                            <input type="text" class="form-control form-control-lg bg-light" id="input_{{ q.id }}" name="question_{{ q.id }}" placeholder="Type your answer here..." autocomplete="off">
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Sticky Submit Footer Bar -->
+        <div class="card border-0 shadow-lg rounded-4 p-4 bg-white sticky-bottom mb-4" style="bottom: 20px;">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div>
+                    <h5 class="fw-bold mb-0 text-dark">Ready to finish?</h5>
+                    <small class="text-muted">Ensure all 15 questions have been addressed before submission.</small>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg px-5 py-3 fw-bold shadow-sm" id="submitQuizBtn">
+                    <i class="bi bi-check2-circle me-2"></i> Submit Quiz
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

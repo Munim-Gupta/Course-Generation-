@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block title %}Module {{ module.module_number }}: {{ module.title }} | CourseGen{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <!-- Breadcrumb & Top Bar -->
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{{ url_for('dashboard.dashboard') }}" class="text-decoration-none">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('module.view_course', course_id=module.course_id) }}" class="text-decoration-none">{{ module.course_title }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Module {{ module.module_number }}</li>
+            </ol>
+        </nav>
+        <div class="d-flex gap-2">
+            <a href="{{ url_for('pdf.download_module_pdf', module_id=module.id) }}" class="btn btn-outline-danger btn-sm">
+                <i class="bi bi-file-earmark-pdf-fill me-1"></i> Download Notes PDF
+            </a>
+            <a href="{{ url_for('module.view_course', course_id=module.course_id) }}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-grid me-1"></i> Course Syllabus
+            </a>
+        </div>
+    </div>
+
+    <!-- Module Header -->
+    <div class="card border-0 shadow-sm rounded-4 bg-dark text-white p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+            <div>
+                <span class="badge bg-primary px-3 py-1 rounded-pill mb-2">Module {{ module.module_number }} of {{ module.module_count }}</span>
+                <h2 class="fw-bold mb-1">{{ module.title }}</h2>
+                <div class="text-light-50 small">Course: {{ module.course_title }}</div>
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap">
+                {% if progress.video_watched == 1 %}
+                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 fs-6">
+                        <i class="bi bi-play-circle-fill me-1"></i> Video Watched ✓
+                    </span>
+                {% else %}
+                    <form action="{{ url_for('progress.mark_video_watched', module_id=module.id) }}" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-outline-light btn-sm px-3 py-2">
+                            <i class="bi bi-check2 me-1"></i> Mark Video as Watched
+                        </button>
+                    </form>
+                {% endif %}
+
+                <a href="{{ url_for('quiz.take_quiz', module_id=module.id) }}" class="btn {% if progress.quiz_completed == 1 %}btn-outline-success{% else %}btn-primary{% endif %} btn-sm px-3 py-2 shadow-sm">
+                    <i class="bi bi-patch-question-fill me-1"></i> {% if progress.quiz_completed == 1 %}Review 15-Q Quiz{% else %}Start 15-Q Quiz{% endif %}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Main Content: Notes & Explanations -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white notes-content">
+                <div class="markdown-body">
+                    {% if notes_html %}
+                        {{ notes_html | safe }}
+                    {% else %}
+                        {{ module.notes | safe }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar: Video Player & Actions -->
+        <div class="col-lg-4">
+            <!-- Video Player Card -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 bg-white sticky-top" style="top: 80px; z-index: 10;">
+                <div class="card-header bg-light border-0 py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-youtube text-danger me-2"></i> Video Lesson</h6>
+                    {% if progress.video_watched == 1 %}
+                        <span class="badge bg-success"><i class="bi bi-check-lg"></i> Watched</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark"><i class="bi bi-clock"></i> Incomplete</span>
+                    {% endif %}
+                </div>
+
+                <div class="ratio ratio-16x9 bg-black">
+                    <iframe
+                        src="{{ module.video_url }}"
+                        title="Lesson Tutorial Video"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+                <div class="p-3">
+                    <a href="https://www.youtube.com/results?search_query={{ (module.course_title ~ ' ' ~ module.title) | urlencode }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-sm w-100 mb-3 shadow-sm d-flex align-items-center justify-content-center">
+                        <i class="bi bi-youtube me-2 fs-6"></i> Watch / Search on YouTube
+                    </a>
+
+                    {% if progress.video_watched != 1 %}
+                        <form action="{{ url_for('progress.mark_video_watched', module_id=module.id) }}" method="POST">
+                            <button type="submit" class="btn btn-success w-100 py-2 fw-semibold shadow-sm mb-2">
+                                <i class="bi bi-check2-circle me-1"></i> Mark Video as Watched
+                            </button>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-success py-2 px-3 mb-2 small text-center">
+                            <i class="bi bi-check-circle-fill me-1"></i> Video requirement satisfied
+                        </div>
+                    {% endif %}
+
+                    <a href="{{ url_for('quiz.take_quiz', module_id=module.id) }}" class="btn btn-primary w-100 py-2 fw-semibold shadow-sm">
+                        <i class="bi bi-patch-question-fill me-1"></i> Take Module Quiz (15 Qs)
+                    </a>
+                </div>
+
+                <!-- Module Completion Tracker Widget -->
+                <div class="p-3 pt-0 border-top bg-light">
+                    <div class="small fw-bold text-muted text-uppercase mb-2 pt-2">Requirements Checklist</div>
+                    <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
+                        <li class="d-flex align-items-center">
+                            {% if progress.video_watched == 1 %}
+                                <i class="bi bi-check-circle-fill text-success fs-5 me-2"></i>
+                                <span>1. Educational video watched</span>
+                            {% else %}
+                                <i class="bi bi-circle text-muted fs-5 me-2"></i>
+                                <span class="text-muted">1. Educational video pending</span>
+                            {% endif %}
+                        </li>
+                        <li class="d-flex align-items-center">
+                            {% if progress.quiz_completed == 1 %}
+                                <i class="bi bi-check-circle-fill text-success fs-5 me-2"></i>
+                                <span>2. 15-question quiz completed</span>
+                            {% else %}
+                                <i class="bi bi-circle text-muted fs-5 me-2"></i>
+                                <span class="text-muted">2. 15-question quiz pending</span>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Sequential Navigation -->
+    <div class="card border-0 shadow-sm rounded-4 p-3 bg-white mt-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                {% if prev_mod %}
+                    <a href="{{ url_for('module.view_module', module_id=prev_mod.id) }}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i> Previous Module
+                    </a>
+                {% else %}
+                    <button class="btn btn-outline-secondary" disabled>Previous Module</button>
+                {% endif %}
+            </div>
+
+            <div>
+                <a href="{{ url_for('module.view_course', course_id=module.course_id) }}" class="btn btn-outline-primary">
+                    <i class="bi bi-grid me-1"></i> Course Syllabus
+                </a>
+            </div>
+
+            <div>
+                {% if next_mod %}
+                    <a href="{{ url_for('module.view_module', module_id=next_mod.id) }}" class="btn btn-primary shadow-sm">
+                        Next Module <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('module.view_course', course_id=module.course_id) }}" class="btn btn-success shadow-sm">
+                        Finish Course <i class="bi bi-check2 ms-1"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

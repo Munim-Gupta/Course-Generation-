@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | CourseGen{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <!-- Welcome Header Banner -->
+    <div class="card border-0 shadow-sm rounded-4 bg-dark text-white p-4 mb-4">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <span class="badge bg-primary px-3 py-1 rounded-pill fw-semibold mb-2">Student Dashboard</span>
+                <h2 class="fw-bold mb-1">Hello, {{ user_name }}! 👋</h2>
+                <p class="text-light-50 mb-0">Track your courses, video watch milestones, and 15-question quiz scores.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                <a href="{{ url_for('generate_course.generate_course') }}" class="btn btn-primary btn-lg shadow-sm">
+                    <i class="bi bi-plus-lg me-1"></i> Generate New Course
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Aggregate Statistics Grid -->
+    <div class="row g-3 mb-4">
+        <div class="col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 stat-card h-100 bg-white">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon bg-primary-subtle text-primary me-3">
+                        <i class="bi bi-journal-bookmark fs-4"></i>
+                    </div>
+                    <div>
+                        <div class="text-muted small fw-semibold">Total Courses</div>
+                        <div class="fs-4 fw-bold text-dark">{{ total_courses }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 stat-card h-100 bg-white">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon bg-success-subtle text-success me-3">
+                        <i class="bi bi-check2-circle fs-4"></i>
+                    </div>
+                    <div>
+                        <div class="text-muted small fw-semibold">Modules Done</div>
+                        <div class="fs-4 fw-bold text-dark">{{ completed_modules }} <span class="text-muted fs-6 fw-normal">/ {{ total_modules }}</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 stat-card h-100 bg-white">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon bg-danger-subtle text-danger me-3">
+                        <i class="bi bi-play-btn fs-4"></i>
+                    </div>
+                    <div>
+                        <div class="text-muted small fw-semibold">Videos Watched</div>
+                        <div class="fs-4 fw-bold text-dark">{{ videos_watched }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 stat-card h-100 bg-white">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon bg-warning-subtle text-warning me-3">
+                        <i class="bi bi-award fs-4"></i>
+                    </div>
+                    <div>
+                        <div class="text-muted small fw-semibold">Avg Quiz Score</div>
+                        <div class="fs-4 fw-bold text-dark">{{ avg_quiz_score }}%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overall Completion Progress Bar -->
+    <div class="card border-0 shadow-sm rounded-4 p-3 bg-white mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="fw-semibold text-dark"><i class="bi bi-bar-chart-line-fill text-primary me-2"></i> Overall Learning Completion</span>
+            <span class="fw-bold text-primary">{{ overall_progress }}%</span>
+        </div>
+        <div class="progress" style="height: 12px;" role="progressbar" aria-valuenow="{{ overall_progress }}" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" style="width: {{ overall_progress }}%;"></div>
+        </div>
+    </div>
+
+    <!-- User's Courses Section -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-dark mb-0">Your Active Courses</h4>
+        <small class="text-muted">{{ total_courses }} Course{% if total_courses != 1 %}s{% endif %} Enrolled</small>
+    </div>
+
+    {% if courses %}
+        <div class="row g-4">
+            {% for item in courses %}
+                {% set course = item.course %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden course-card bg-white">
+                        <div class="card-header bg-light border-0 py-3 d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary text-white text-uppercase px-2 py-1 small">{{ course.topic }}</span>
+                            <span class="badge bg-secondary-subtle text-secondary small">{{ course.difficulty }}</span>
+                        </div>
+                        <div class="card-body d-flex flex-column p-4">
+                            <h5 class="fw-bold mb-2 text-dark">{{ course.title }}</h5>
+
+                            <div class="text-muted small mb-3 d-flex flex-wrap gap-3">
+                                <span><i class="bi bi-clock me-1 text-primary"></i> {{ course.duration }}</span>
+                                <span><i class="bi bi-collection me-1 text-info"></i> {{ course.module_count }} Modules</span>
+                            </div>
+
+                            <!-- Course Progress Bar -->
+                            <div class="mt-auto mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1 small">
+                                    <span class="text-muted">Progress</span>
+                                    <span class="fw-bold {% if item.is_complete %}text-success{% else %}text-primary{% endif %}">
+                                        {{ item.progress_pct }}%
+                                    </span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar {% if item.is_complete %}bg-success{% else %}bg-primary{% endif %}" style="width: {{ item.progress_pct }}%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="d-flex flex-column gap-2">
+                                {% if item.is_complete %}
+                                    <div class="alert alert-success py-2 px-3 mb-1 text-center small fw-semibold">
+                                        <i class="bi bi-check-circle-fill me-1"></i> Course Completed ✓
+                                    </div>
+                                    <a href="{{ url_for('certificate.view_certificate', course_id=course.id) }}" class="btn btn-warning btn-sm text-dark fw-bold shadow-sm">
+                                        <i class="bi bi-award-fill me-1"></i> View Certificate
+                                    </a>
+                                {% else %}
+                                    {% if item.next_module %}
+                                        <a href="{{ url_for('module.view_module', module_id=item.next_module.id) }}" class="btn btn-primary btn-sm fw-semibold shadow-sm">
+                                            <i class="bi bi-play-fill me-1"></i> Continue (Module {{ item.next_module.module_number }})
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ url_for('module.view_course', course_id=course.id) }}" class="btn btn-primary btn-sm fw-semibold shadow-sm">
+                                            <i class="bi bi-book me-1"></i> Start Learning
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+
+                                <a href="{{ url_for('module.view_course', course_id=course.id) }}" class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-list-nested me-1"></i> View All Modules
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card border-0 shadow-sm rounded-4 p-5 text-center bg-white my-4">
+            <div class="py-4">
+                <i class="bi bi-folder-plus display-3 text-muted mb-3 d-block"></i>
+                <h4 class="fw-bold">No Courses Enrolled Yet</h4>
+                <p class="text-muted max-w-md mx-auto mb-4">
+                    Get started by generating your first custom course in Python, HTML, CSS, JavaScript, SQL, or any topic of your choice.
+                </p>
+                <a href="{{ url_for('generate_course.generate_course') }}" class="btn btn-primary btn-lg shadow-sm">
+                    <i class="bi bi-magic me-2"></i> Generate Your First Course
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
