@@ -1,46 +1,29 @@
 {% extends "base.html" %}
 
-{% block title %}CourseGen | Automated Python Course Generation Platform{% endblock %}
+{% block title %}CourseGen | Smart Course Generation Platform{% endblock %}
 
 {% block content %}
-<div class="hero-section text-white py-5 mb-5">
-    <div class="container py-4">
-        <div class="row align-items-center">
-            <div class="col-lg-7">
-                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-semibold mb-3">
-                    <i class="bi bi-cpu-fill me-1"></i> 100% Local Logic • Zero External AI APIs
+<!-- Hero Section -->
+<div class="hero-section text-white py-5 mb-5 position-relative overflow-hidden">
+    <div class="container py-5 position-relative">
+        <div class="row justify-content-center">
+            <div class="col-lg-9 text-center">
+                <span class="badge hero-badge px-3 py-2 rounded-pill fw-semibold mb-3">
+                    <i class="bi bi-stars text-primary me-1"></i> Smart Learning Platform
                 </span>
-                <h1 class="display-4 fw-bold mb-3 tracking-tight">
-                    Generate Structured Courses & 15-Question Quizzes in Seconds
+                <h1 class="display-4 fw-bold mb-3 tracking-tight hero-heading">
+                    Generate Structured Courses in <span class="text-gradient">Seconds</span>
                 </h1>
-                <p class="lead text-light-50 mb-4">
-                    An educational course generation platform built with pure Python & Flask.
-                    Provides comprehensive curricula, structured student notes, embedded video tutorials,
-                    automated quizzes, progress tracking, and downloadable PDF certificates.
+                <p class="lead hero-lead mb-4 mx-auto">
+                    Interactive modules, automated quizzes, and verified certificates — designed to accelerate your learning journey.
                 </p>
-                <div class="d-flex gap-3 flex-wrap">
-                    <a href="{{ url_for('register.register') }}" class="btn btn-primary btn-lg px-4 shadow">
+                <div class="d-flex gap-3 flex-wrap justify-content-center">
+                    <a href="{{ url_for('register.register') }}" class="btn btn-primary btn-lg px-4 shadow-sm btn-hero-primary">
                         <i class="bi bi-rocket-takeoff-fill me-2"></i> Get Started Free
                     </a>
-                    <a href="{{ url_for('login.login') }}" class="btn btn-outline-light btn-lg px-4">
+                    <a href="{{ url_for('login.login') }}" class="btn btn-outline-light btn-lg px-4 btn-hero-secondary">
                         <i class="bi bi-box-arrow-in-right me-2"></i> Sign In
                     </a>
-                </div>
-            </div>
-            <div class="col-lg-5 d-none d-lg-block text-center">
-                <div class="card bg-dark text-white border-secondary shadow-lg p-4 rounded-4 text-start">
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="badge bg-success me-2">System Active</span>
-                        <small class="text-muted">Python 3 + Flask Architecture</small>
-                    </div>
-                    <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-diagram-3-fill me-2"></i> College Project Blueprint</h5>
-                    <ul class="list-unstyled text-light small mb-0 d-flex flex-column gap-2">
-                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Modular Architecture (12+ dedicated Python modules)</li>
-                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Predefined Knowledge Engine & Custom Topic Fallback</li>
-                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Strict 15-Question Balanced Quizzes (MCQ, T/F, Short Answer)</li>
-                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Real-time Progress & Video Watch Tracking</li>
-                        <li><i class="bi bi-check-circle-fill text-success me-2"></i> ReportLab In-Memory PDF Notes & Certificates</li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -48,52 +31,98 @@
 </div>
 
 <div class="container mb-5">
-    <div class="text-center mb-5">
-        <h2 class="fw-bold">Comprehensive Academic Features</h2>
-        <p class="text-muted">Designed for clarity, real-world utility, and college viva demonstration.</p>
+    <!-- Quick Highlights Strip -->
+    <div class="row g-3 justify-content-center mb-5">
+        <div class="col-6 col-md-3">
+            <div class="d-flex align-items-center p-3 bg-white rounded-4 border shadow-sm h-100 highlight-card">
+                <div class="stat-icon bg-primary-subtle text-primary me-3">
+                    <i class="bi bi-lightning-charge-fill fs-4"></i>
+                </div>
+                <div>
+                    <div class="fw-bold text-dark">Instant</div>
+                    <small class="text-muted">Generation</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="d-flex align-items-center p-3 bg-white rounded-4 border shadow-sm h-100 highlight-card">
+                <div class="stat-icon bg-success-subtle text-success me-3">
+                    <i class="bi bi-journal-code fs-4"></i>
+                </div>
+                <div>
+                    <div class="fw-bold text-dark">Structured</div>
+                    <small class="text-muted">Lessons & Notes</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="d-flex align-items-center p-3 bg-white rounded-4 border shadow-sm h-100 highlight-card">
+                <div class="stat-icon bg-warning-subtle text-warning me-3">
+                    <i class="bi bi-patch-question-fill fs-4"></i>
+                </div>
+                <div>
+                    <div class="fw-bold text-dark">Interactive</div>
+                    <small class="text-muted">Module Quizzes</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="d-flex align-items-center p-3 bg-white rounded-4 border shadow-sm h-100 highlight-card">
+                <div class="stat-icon bg-info-subtle text-info me-3">
+                    <i class="bi bi-award-fill fs-4"></i>
+                </div>
+                <div>
+                    <div class="fw-bold text-dark">Verified</div>
+                    <small class="text-muted">PDF Certificates</small>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="row g-4">
+    <!-- Features Section -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold tracking-tight">Everything You Need to Learn</h2>
+        <p class="text-muted">A streamlined toolkit for mastering new technical skills.</p>
+    </div>
+
+    <div class="row g-4 mb-5">
         <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 feature-card">
-                <div class="card-body">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 feature-card">
+                <div class="card-body p-0">
                     <div class="feature-icon bg-primary-subtle text-primary mb-3">
                         <i class="bi bi-journal-code fs-3"></i>
                     </div>
-                    <h5 class="fw-bold">Automated Course Engine</h5>
-                    <p class="text-muted small">
-                        Generate complete multi-module syllabi for Python, HTML, CSS, JavaScript, SQL, or custom topics
-                        with structured notes, runnable code examples, and outputs.
+                    <h5 class="fw-bold mb-2">Structured Syllabi</h5>
+                    <p class="text-muted small mb-0">
+                        Multi-module courses with clean notes, practical code examples, and structured explanations.
                     </p>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 feature-card">
-                <div class="card-body">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 feature-card">
+                <div class="card-body p-0">
                     <div class="feature-icon bg-success-subtle text-success mb-3">
                         <i class="bi bi-patch-question-fill fs-3"></i>
                     </div>
-                    <h5 class="fw-bold">15-Question Quiz Generator</h5>
-                    <p class="text-muted small">
-                        Every module features exactly 15 randomized questions (8 Multiple Choice, 4 True/False, 3 Short Answer)
-                        with intelligent fallback template generation.
+                    <h5 class="fw-bold mb-2">Smart Quizzes</h5>
+                    <p class="text-muted small mb-0">
+                        Reinforce your knowledge with randomized quizzes, balanced questions, and instant feedback.
                     </p>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 feature-card">
-                <div class="card-body">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 feature-card">
+                <div class="card-body p-0">
                     <div class="feature-icon bg-warning-subtle text-warning mb-3">
                         <i class="bi bi-award-fill fs-3"></i>
                     </div>
-                    <h5 class="fw-bold">Verified PDF Certificates</h5>
-                    <p class="text-muted small">
-                        Complete all modules and quizzes to unlock verified PDF course notes and an official landscape
-                        Certificate of Achievement generated via ReportLab.
+                    <h5 class="fw-bold mb-2">Verified Certificates</h5>
+                    <p class="text-muted small mb-0">
+                        Complete your course modules and quizzes to download official verified certificates.
                     </p>
                 </div>
             </div>
@@ -101,18 +130,29 @@
     </div>
 
     <!-- Supported Topics Bar -->
-    <div class="card border-0 shadow-sm rounded-4 mt-5 p-4 bg-white text-center">
-        <h6 class="text-uppercase fw-bold text-muted small mb-3">Pre-Configured Knowledge Domains</h6>
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white text-center mb-5">
+        <h6 class="text-uppercase fw-bold text-muted small mb-3">Popular Learning Paths</h6>
         <div class="d-flex flex-wrap justify-content-center gap-2">
-            <span class="badge bg-light text-dark border px-3 py-2 fs-6"><i class="bi bi-filetype-py text-primary me-1"></i> Python</span>
-            <span class="badge bg-light text-dark border px-3 py-2 fs-6"><i class="bi bi-filetype-html text-danger me-1"></i> HTML5</span>
-            <span class="badge bg-light text-dark border px-3 py-2 fs-6"><i class="bi bi-filetype-css text-info me-1"></i> CSS3</span>
-            <span class="badge bg-light text-dark border px-3 py-2 fs-6"><i class="bi bi-filetype-js text-warning me-1"></i> JavaScript</span>
-            <span class="badge bg-light text-dark border px-3 py-2 fs-6"><i class="bi bi-database-fill text-success me-1"></i> SQL & DBMS</span>
-            <span class="badge bg-light text-dark border px-3 py-2 fs-6"><i class="bi bi-cup-hot-fill text-danger me-1"></i> Java</span>
-            <span class="badge bg-light text-dark border px-3 py-2 fs-6"><i class="bi bi-code-square text-primary me-1"></i> C++</span>
-            <span class="badge bg-light text-dark border px-3 py-2 fs-6"><i class="bi bi-plus-circle-fill text-secondary me-1"></i> Any Custom Topic</span>
+            <span class="badge bg-light text-dark border px-3 py-2 fs-6 topic-pill"><i class="bi bi-filetype-py text-primary me-1"></i> Python</span>
+            <span class="badge bg-light text-dark border px-3 py-2 fs-6 topic-pill"><i class="bi bi-filetype-html text-danger me-1"></i> HTML5</span>
+            <span class="badge bg-light text-dark border px-3 py-2 fs-6 topic-pill"><i class="bi bi-filetype-css text-info me-1"></i> CSS3</span>
+            <span class="badge bg-light text-dark border px-3 py-2 fs-6 topic-pill"><i class="bi bi-filetype-js text-warning me-1"></i> JavaScript</span>
+            <span class="badge bg-light text-dark border px-3 py-2 fs-6 topic-pill"><i class="bi bi-database-fill text-success me-1"></i> SQL & DBMS</span>
+            <span class="badge bg-light text-dark border px-3 py-2 fs-6 topic-pill"><i class="bi bi-cup-hot-fill text-danger me-1"></i> Java</span>
+            <span class="badge bg-light text-dark border px-3 py-2 fs-6 topic-pill"><i class="bi bi-code-square text-primary me-1"></i> C++</span>
+            <span class="badge bg-light text-dark border px-3 py-2 fs-6 topic-pill"><i class="bi bi-plus-circle-fill text-secondary me-1"></i> Custom Topic</span>
         </div>
+    </div>
+
+    <!-- Clean Bottom Call To Action -->
+    <div class="cta-banner rounded-4 text-white p-4 p-md-5 text-center shadow-sm">
+        <h3 class="fw-bold mb-2">Ready to Start Learning?</h3>
+        <p class="text-light-75 mb-4 mx-auto" style="max-width: 480px;">
+            Create your account today and generate your customized course in seconds.
+        </p>
+        <a href="{{ url_for('register.register') }}" class="btn btn-primary btn-lg px-4 shadow-sm btn-hero-primary">
+            <i class="bi bi-rocket-takeoff-fill me-2"></i> Get Started Free
+        </a>
     </div>
 </div>
 {% endblock %}
